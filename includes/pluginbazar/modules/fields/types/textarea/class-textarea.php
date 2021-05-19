@@ -8,12 +8,12 @@
 namespace Pluginbazar\Fields;
 
 /**
- * Class Field_text
+ * Class Field_textarea
  */
-class Field_text {
+class Field_textarea {
 
 	/**
-	 * Field_text instance
+	 * Field_textarea instance
 	 *
 	 * @var null
 	 */
@@ -30,13 +30,14 @@ class Field_text {
 		ob_start();
 
 		?>
-        <input type="text"
-			<?php $field->is_disabled(); ?>
+        <textarea
+            <?php $field->is_disabled(); ?>
 			<?php $field->is_required(); ?>
-               id="<?php echo esc_attr( $field->id ); ?>"
-               name="<?php echo esc_attr( $field->id ); ?>"
-               value="<?php echo esc_attr( $field->value ); ?>"
-               placeholder="<?php echo esc_attr( $field->placeholder ); ?>">
+            name="<?php echo esc_attr( $field->id ); ?>"
+            id="<?php echo esc_attr( $field->id ); ?>"
+            cols="<?php echo esc_attr( $field->cols ); ?>"
+            rows="<?php echo esc_attr( $field->rows ); ?>"
+            placeholder="<?php echo esc_attr( $field->placeholder ); ?>"><?php echo esc_attr( $field->value ); ?></textarea>
 		<?php
 
 		$field->output( ob_get_clean() );
@@ -44,7 +45,7 @@ class Field_text {
 
 
 	/**
-	 * @return Field_text|null
+	 * @return Field_textarea|null
 	 */
 	public static function instance() {
 		if ( is_null( self::$_instance ) ) {

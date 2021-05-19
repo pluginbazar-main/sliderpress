@@ -7,10 +7,10 @@
 
 namespace Pluginbazar;
 
-use Pluginbazar\Pluginbazar_utils;
-use Pluginbazar\Pluginbazar_meta;
+use Pluginbazar\Utils;
+use Pluginbazar\Meta;
 
-class Pluginbazar_main {
+class Main {
 
 	/**
 	 * class Pluginbazar
@@ -46,11 +46,11 @@ class Pluginbazar_main {
 	private static function get_modules(): array {
 
 		return array(
-			'utils'      => array( 'class' => 'Pluginbazar\Pluginbazar_utils' ),
+			'utils'      => array( 'class' => 'Pluginbazar\Utils' ),
 			'fields'     => array( 'class' => 'Pluginbazar\Fields' ),
-			'meta'       => array( 'class' => 'Pluginbazar\Pluginbazar_meta' ),
-			'shortcodes' => array( 'class' => 'Pluginbazar\Pluginbazar_shortcodes' ),
-			'settings'   => array( 'class' => 'Pluginbazar\Pluginbazar_settings' ),
+			'meta'       => array( 'class' => 'Pluginbazar\Meta' ),
+			'shortcodes' => array( 'class' => 'Pluginbazar\Shortcodes' ),
+			'settings'   => array( 'class' => 'Pluginbazar\Settings' ),
 		);
 	}
 
@@ -95,7 +95,7 @@ class Pluginbazar_main {
 	 * @param array $style
 	 */
 	public static function add_style( $selector, array $style = array() ) {
-		$added_styles = Pluginbazar_utils::get_args_option( $selector, self::$_admin_styles, array() );
+		$added_styles = Utils::get_args_option( $selector, self::$_admin_styles, array() );
 		$added_styles = ! is_array( $added_styles ) ? array() : $added_styles;
 
 		$added_styles += $style;
@@ -132,7 +132,7 @@ class Pluginbazar_main {
 
 
 	/**
-	 * @return Pluginbazar_main|null
+	 * @return Main|null
 	 */
 	public static function instance() {
 		if ( is_null( self::$_instance ) ) {
@@ -143,4 +143,4 @@ class Pluginbazar_main {
 	}
 }
 
-Pluginbazar_main::instance();
+Main::instance();

@@ -7,17 +7,17 @@
 
 namespace Pluginbazar;
 
-use Pluginbazar\Pluginbazar_main;
-use Pluginbazar\Pluginbazar_utils;
+use Pluginbazar\Main;
+use Pluginbazar\Utils;
 use WP_Post;
 
 /**
- * Class Pluginbazar_meta
+ * Class Meta
  */
-class Pluginbazar_meta {
+class Meta {
 
 	/**
-	 * Pluginbazar_meta instance
+	 * Meta instance
 	 *
 	 * @var null
 	 */
@@ -29,6 +29,44 @@ class Pluginbazar_meta {
 
 	public function __construct() {
 		add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ) );
+		add_action( 'save_post', array( $this, 'save_meta_data' ) );
+	}
+
+
+	/**
+	 * Save post meta data
+	 *
+	 * @param int $post_id
+	 */
+	public function save_meta_data( int $post_id ) {
+
+		$posted_data = wp_unslash( $_POST );
+
+		if ( ! wp_verify_nonce( Utils::get_args_option( 'Meta_nonce', $posted_data ), self::get_metabox_id() ) ) {
+			return;
+		}
+
+		foreach ( $this->get_fields() as $field_id ) {
+			update_post_meta( $post_id, $field_id, Utils::get_args_option( $field_id, $posted_data ) );
+		}
+	}
+
+
+	/**
+	 * Return fields array data
+	 *
+	 * @return array
+	 */
+	private function get_fields(): array {
+		$fields = array();
+
+		foreach ( $this->get_sections() as $section ) {
+			$fields = array_merge( $fields, array_map( function ( $field ) {
+				return Utils::get_args_option( 'id', $field );
+			}, Utils::get_args_option( 'fields', $section ) ) );
+		}
+
+		return $fields;
 	}
 
 
@@ -42,7 +80,14 @@ class Pluginbazar_meta {
 		ob_start();
 		$index = 0;
 		foreach ( $this->get_sections() as $section ) {
-			Fields::render_sections( array_merge( array( 'index' => $index ), $section ) );
+
+			$section = array_merge( array( 'index' => $index ), $section );
+
+			foreach ( Utils::get_args_option( 'fields', $section, array() ) as $field_index => $field ) {
+				$section['fields'][ $field_index ]['value'] = self::get_meta( Utils::get_args_option( 'id', $field ), $post->ID );
+			}
+
+			Fields::render_sections( $section );
 			$index ++;
 		}
 
@@ -50,10 +95,13 @@ class Pluginbazar_meta {
 			implode( ' ', $this->get_tabs() ), ob_get_clean()
 		);
 
+
+		wp_nonce_field( self::get_metabox_id(), 'Meta_nonce' );
+
 		// Adding CSS
-		Pluginbazar_main::add_style( sprintf( '#%s', $this->get_metabox_id() ), array( 'border' => 'none', 'background-color' => 'transparent' ) );
-		Pluginbazar_main::add_style( sprintf( '#%s .postbox-header', $this->get_metabox_id() ), array( 'display' => 'none' ) );
-		Pluginbazar_main::add_style( sprintf( '#%s .inside', $this->get_metabox_id() ), array( 'margin' => '0', 'padding' => 0 ) );
+		Main::add_style( sprintf( '#%s', $this->get_metabox_id() ), array( 'border' => 'none', 'background-color' => 'transparent' ) );
+		Main::add_style( sprintf( '#%s .postbox-header', $this->get_metabox_id() ), array( 'display' => 'none' ) );
+		Main::add_style( sprintf( '#%s .inside', $this->get_metabox_id() ), array( 'margin' => '0', 'padding' => 0 ) );
 	}
 
 
@@ -69,8 +117,8 @@ class Pluginbazar_meta {
 
 		foreach ( $this->get_sections() as $section ) {
 			$tabs[] = sprintf( '<li class="item-%1$s %3$s" data-target="%1$s"><a href="#%1$s">%2$s</a></li>',
-				Pluginbazar_utils::get_args_option( 'id', $section ),
-				Pluginbazar_utils::get_args_option( 'label', $section ),
+				Utils::get_args_option( 'id', $section ),
+				Utils::get_args_option( 'label', $section ),
 				$index == 0 ? 'active' : ''
 			);
 			$index ++;
@@ -92,13 +140,13 @@ class Pluginbazar_meta {
 		$sections = array();
 
 		foreach ( self::$_meta_boxes as $meta_box ) {
-			if ( Pluginbazar_utils::get_args_option( 'post_type', $meta_box ) == $current_screen->post_type ) {
-				$sections = Pluginbazar_utils::get_args_option( 'sections', $meta_box );
+			if ( Utils::get_args_option( 'post_type', $meta_box ) == $current_screen->post_type ) {
+				$sections = Utils::get_args_option( 'sections', $meta_box );
 				break;
 			}
 		}
 
-		return $sections;
+		return is_array( $sections ) ? $sections : array();
 	}
 
 
@@ -113,7 +161,7 @@ class Pluginbazar_meta {
 		$metabox_id = '';
 
 		foreach ( self::$_meta_boxes as $id => $meta_box ) {
-			if ( Pluginbazar_utils::get_args_option( 'post_type', $meta_box ) == $current_screen->post_type ) {
+			if ( Utils::get_args_option( 'post_type', $meta_box ) == $current_screen->post_type ) {
 				$metabox_id = $id;
 				break;
 			}
@@ -137,9 +185,7 @@ class Pluginbazar_meta {
 			$sections = self::$_meta_boxes[ $metabox_id ]['sections'];
 		}
 
-		$sections += $section;
-
-		self::$_meta_boxes[ $metabox_id ]['sections'][] = $sections;
+		self::$_meta_boxes[ $metabox_id ]['sections'][ count( $sections ) ] = $section;
 	}
 
 
@@ -148,10 +194,10 @@ class Pluginbazar_meta {
 	 */
 	public function add_meta_boxes() {
 		foreach ( self::$_meta_boxes as $meta_box_id => $meta_box ) {
-			add_meta_box( $meta_box_id, Pluginbazar_utils::get_args_option( 'title', $meta_box ), array( $this, 'render_metabox' ),
-				Pluginbazar_utils::get_args_option( 'post_type', $meta_box ),
-				Pluginbazar_utils::get_args_option( 'context', $meta_box ),
-				Pluginbazar_utils::get_args_option( 'priority', $meta_box )
+			add_meta_box( $meta_box_id, Utils::get_args_option( 'title', $meta_box ), array( $this, 'render_metabox' ),
+				Utils::get_args_option( 'post_type', $meta_box ),
+				Utils::get_args_option( 'context', $meta_box ),
+				Utils::get_args_option( 'priority', $meta_box )
 			);
 		}
 	}
@@ -181,12 +227,12 @@ class Pluginbazar_meta {
 	 * Return Post Meta Value
 	 *
 	 * @param string $meta_key
-	 * @param bool $post_id
+	 * @param int $post_id
 	 * @param string|array $default
 	 *
 	 * @return mixed|string|void
 	 */
-	function get_meta( string $meta_key = '', bool $post_id = false, $default = '', string $type = 'post', bool $single = true ) {
+	public static function get_meta( string $meta_key = '', int $post_id = 0, $default = '', string $type = 'post', bool $single = true ) {
 
 		$post_id    = ! $post_id ? get_the_ID() : $post_id;
 		$meta_value = get_metadata( $type, $post_id, $meta_key, $single );
@@ -197,7 +243,7 @@ class Pluginbazar_meta {
 
 
 	/**
-	 * @return Pluginbazar_meta|null
+	 * @return Meta|null
 	 */
 	public static function instance() {
 		if ( is_null( self::$_instance ) ) {

@@ -415,6 +415,20 @@ if ( ! class_exists( 'PB_Settings' ) ) {
 		}
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 		/**
 		 * Generate Field - Gallery
 		 *
@@ -806,30 +820,6 @@ if ( ! class_exists( 'PB_Settings' ) ) {
 			<?php
 		}
 
-		/**
-		 * Generate Field - wp_editor
-		 *
-		 * @param $option
-		 */
-		function generate_wp_editor( $option ) {
-
-			$id            = isset( $option['id'] ) ? $option['id'] : "";
-			$post_id       = isset( $option['post_id'] ) ? $option['post_id'] : '';
-			$field_options = isset( $option['field_options'] ) ? $option['field_options'] : array();
-			$post          = get_post( $post_id );
-
-			wp_editor( $post->post_content, $id, $field_options );
-
-			?>
-            <style>
-                #wp-content-editor-tools {
-                    background-color: #fff;
-                    padding-top: 0;
-                }
-            </style>
-			<?php
-		}
-
 
 		/**
 		 * Generate Field - Color Picker
@@ -870,194 +860,17 @@ if ( ! class_exists( 'PB_Settings' ) ) {
 		}
 
 
-		/**
-		 * Generate Field - Text
-		 *
-		 * @param $option
-		 */
-		function generate_text( $option ) {
-
-			$id           = isset( $option['id'] ) ? $option['id'] : "";
-			$placeholder  = isset( $option['placeholder'] ) ? $option['placeholder'] : "";
-			$autocomplete = isset( $option['autocomplete'] ) ? $option['autocomplete'] : "";
-			$value        = isset( $option['value'] ) ? $option['value'] : get_option( $id );
-			$required     = isset( $option['required'] ) ? $option['required'] : false;
-			$required     = $required ? "required='required'" : '';
-			$disabled     = isset( $option['disabled'] ) && $option['disabled'] ? 'disabled' : '';
-			$field_id     = str_replace( array( '[', ']' ), '', $id );
-
-			if ( empty( $value ) || ! $value ) {
-				$value = isset( $option['default'] ) ? $option['default'] : $value;
-			}
-
-			?>
-            <input type="text" <?php echo esc_attr( $disabled ); ?> <?php echo esc_attr( $required ); ?>
-
-                   name="<?php echo esc_attr( $id ); ?>"
-                   id="<?php echo esc_attr( $field_id ); ?>"
-                   placeholder="<?php echo esc_attr( $placeholder ); ?>"
-                   autocomplete="<?php echo esc_attr( $autocomplete ); ?>"
-                   value="<?php echo esc_attr( $value ); ?>"/>
-			<?php
-		}
 
 
-		/**
-		 * Generate Field - Number
-		 *
-		 * @param $option
-		 */
-		function generate_number( $option ) {
-
-			$id          = isset( $option['id'] ) ? $option['id'] : "";
-			$placeholder = isset( $option['placeholder'] ) ? $option['placeholder'] : "";
-			$value       = isset( $option['value'] ) ? $option['value'] : get_option( $id );
-			$required    = isset( $option['required'] ) ? $option['required'] : false;
-			$required    = $required ? "required='required'" : '';
-			$disabled    = isset( $option['disabled'] ) && $option['disabled'] ? 'disabled' : '';
-
-			if ( empty( $value ) || ! $value ) {
-				$value = isset( $option['default'] ) ? $option['default'] : $value;
-			}
-
-			?>
-            <input type="number"
-				<?php echo esc_attr( $disabled ); ?> <?php echo esc_attr( $required ); ?>
-                   name="<?php echo esc_attr( $id ); ?>"
-                   id="<?php echo esc_attr( $id ); ?>"
-                   placeholder="<?php echo esc_attr( $placeholder ); ?>"
-                   value="<?php echo esc_attr( $value ); ?>"/>
-			<?php
-		}
 
 
-		/**
-		 * Generate Field - Textarea
-		 *
-		 * @param $option
-		 */
-		function generate_textarea( $option ) {
-
-			$id          = isset( $option['id'] ) ? $option['id'] : "";
-			$placeholder = isset( $option['placeholder'] ) ? $option['placeholder'] : "";
-			$rows        = isset( $option['rows'] ) ? $option['rows'] : 4;
-			$value       = isset( $option['value'] ) ? $option['value'] : get_option( $id );
-			$required    = isset( $option['required'] ) ? $option['required'] : false;
-			$required    = $required ? "required='required'" : '';
-			$disabled    = isset( $option['disabled'] ) && $option['disabled'] ? 'disabled' : '';
-
-			if ( empty( $value ) || ! $value ) {
-				$value = isset( $option['default'] ) ? $option['default'] : $value;
-			}
-
-			?>
-            <textarea cols="40" <?php echo esc_attr( $disabled ); ?> <?php echo esc_attr( $required ); ?>
-                      rows="<?php echo esc_attr( $rows ); ?>"
-                      name="<?php echo esc_attr( $id ); ?>"
-                      id="<?php echo esc_attr( $id ); ?>"
-                      placeholder="<?php echo esc_attr( $placeholder ); ?>"><?php echo esc_html( $value ); ?></textarea>
-			<?php
-		}
 
 
-		/**
-		 * Generate Field - Select
-		 *
-		 * @param $option
-		 */
-		function generate_select( $option ) {
-
-			$id       = isset( $option['id'] ) ? $option['id'] : "";
-			$args     = isset( $option['args'] ) ? $option['args'] : array();
-			$args     = is_array( $args ) ? $args : $this->generate_args_from_string( $args, $option );
-			$value    = isset( $option['value'] ) ? $option['value'] : get_option( $id );
-			$required = isset( $option['required'] ) ? $option['required'] : false;
-			$required = $required ? "required='required'" : '';
-			$disabled = isset( $option['disabled'] ) && $option['disabled'] ? 'disabled' : '';
-
-			if ( empty( $value ) || ! $value ) {
-				$value = isset( $option['default'] ) ? reset( $option['default'] ) : $value;
-			}
-
-			?>
-            <select <?php echo esc_attr( $disabled ); ?> <?php echo esc_attr( $required ); ?>
-                    name="<?php echo esc_attr( $id ); ?>"
-                    id="<?php echo esc_attr( $id ); ?>">
-
-				<?php
-
-				printf( '<option value="">%s</option>', esc_html__( 'Select your choice' ) );
-
-				foreach ( $args as $key => $name ) {
-					printf( '<option %s value="%s">%s</option>', $value == $key ? "selected" : "", $key, $name );
-				}
-
-				?>
-            </select>
-			<?php
-		}
 
 
-		/**
-		 * Generate Field - Checkbox
-		 *
-		 * @param $option
-		 */
-		function generate_checkbox( $option ) {
-
-			$id       = isset( $option['id'] ) ? $option['id'] : "";
-			$args     = isset( $option['args'] ) ? $option['args'] : array();
-			$args     = is_array( $args ) ? $args : $this->generate_args_from_string( $args, $option );
-			$value    = isset( $option['value'] ) ? $option['value'] : get_option( $id );
-			$disabled = isset( $option['disabled'] ) && $option['disabled'] ? 'disabled' : '';
-			$cb_items = array();
-
-			if ( empty( $value ) || ! $value ) {
-				$value = isset( $option['default'] ) ? $option['default'] : $value;
-			}
-
-			foreach ( $args as $key => $val ) {
-
-				$checked    = is_array( $value ) && in_array( $key, $value ) ? "checked" : "";
-				$cb_items[] = sprintf( '<label for="%1$s_%2$s"><input %3$s %4$s type="checkbox" id="%1$s_%2$s" name="%1$s[]" value="%2$s">%5$s</label>',
-					$id, $key, $disabled, $checked, $val
-				);
-			}
-
-			printf( '<fieldset>%s</fieldset>', implode( '<br>', $cb_items ) );
-		}
 
 
-		/**
-		 * Generate Field - Radio
-		 *
-		 * @param $option
-		 */
-		function generate_radio( $option ) {
 
-			$option_id = isset( $option['id'] ) ? $option['id'] : "";
-			$args      = isset( $option['args'] ) ? $option['args'] : array();
-			$args      = is_array( $args ) ? $args : $this->generate_args_from_string( $args, $option );
-			$value     = isset( $option['value'] ) ? $option['value'] : get_option( $option_id );
-			$disabled  = isset( $option['disabled'] ) && $option['disabled'] ? 'disabled' : '';
-
-			if ( empty( $value ) || ! $value ) {
-				$value = isset( $option['default'] ) ? $option['default'] : $value;
-			}
-
-			?>
-            <fieldset>
-				<?php
-				foreach ( $args as $key => $val ) {
-					$checked = is_array( $value ) && in_array( $key, $value ) ? "checked" : "";
-					printf( '<label><input %1$s %2$s type="radio" name="%3$s[]" value="%4$s">%5$s</label><br>',
-						$disabled, $checked, $option_id, $key, $val
-					);
-				}
-				?>
-            </fieldset>
-			<?php
-		}
 
 
 		/**

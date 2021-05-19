@@ -8,12 +8,12 @@
 namespace Pluginbazar\Fields;
 
 /**
- * Class Field_text
+ * Class Field_email
  */
-class Field_text {
+class Field_email {
 
 	/**
-	 * Field_text instance
+	 * Field_email instance
 	 *
 	 * @var null
 	 */
@@ -30,13 +30,13 @@ class Field_text {
 		ob_start();
 
 		?>
-        <input type="text"
-			<?php $field->is_disabled(); ?>
-			<?php $field->is_required(); ?>
-               id="<?php echo esc_attr( $field->id ); ?>"
-               name="<?php echo esc_attr( $field->id ); ?>"
-               value="<?php echo esc_attr( $field->value ); ?>"
-               placeholder="<?php echo esc_attr( $field->placeholder ); ?>">
+        <input type="email"
+	        <?php $field->is_disabled(); ?>
+	        <?php $field->is_required(); ?>
+               id="<?php echo esc_html( $field->id ); ?>"
+               name="<?php echo esc_html( $field->id ); ?>"
+               value="<?php echo esc_html( $field->value ); ?>"
+               placeholder="<?php echo esc_html( $field->placeholder ); ?>">
 		<?php
 
 		$field->output( ob_get_clean() );
@@ -44,7 +44,7 @@ class Field_text {
 
 
 	/**
-	 * @return Field_text|null
+	 * @return Field_email|null
 	 */
 	public static function instance() {
 		if ( is_null( self::$_instance ) ) {

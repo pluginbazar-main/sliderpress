@@ -7,13 +7,13 @@
 
 
     $(document).on('click', '.pluginbazar-metabox ul.tabs > li > a', function () {
-        let thisTabItem = $(this).parent(), dataTarget = thisTabItem.data('target');
+        let thisTabItem = $(this).parent(), dataTarget = thisTabItem.data('target'), targetContent = $('div.content-' + dataTarget);
 
         thisTabItem.parent().find('li').removeClass('active');
         thisTabItem.addClass('active');
 
-        $('div.content-' + dataTarget).parent().find('> div').removeClass('active');
-        $('div.content-' + dataTarget).addClass('active');
+        targetContent.parent().find('> div').removeClass('active');
+        targetContent.addClass('active');
     });
 
 
@@ -21,7 +21,9 @@
 
         let documentBody = $('body'), pluginbazarMeta = $('.pluginbazar-metabox'), locationArgs = window.location.href.split('#');
 
-        if (documentBody.hasClass('wp-admin') && pluginbazarMeta.length && locationArgs[1].length > 0 ) {
+        if (documentBody.hasClass('wp-admin') &&
+            typeof pluginbazarMeta !== 'undefined' && pluginbazarMeta.length &&
+            typeof locationArgs[1] !== 'undefined' && locationArgs[1].length > 0) {
 
             pluginbazarMeta.find('ul.tabs > li').removeClass('active');
             pluginbazarMeta.find('ul.tabs > li.item-' + locationArgs[1]).addClass('active');

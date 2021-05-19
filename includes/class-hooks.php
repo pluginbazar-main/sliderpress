@@ -5,9 +5,9 @@
  * @author Pluginbazar
  */
 
-use Pluginbazar\Pluginbazar_meta;
-use Pluginbazar\Pluginbazar_shortcodes;
-use Pluginbazar\Pluginbazar_utils;
+use Pluginbazar\Meta;
+use Pluginbazar\Shortcodes;
+use Pluginbazar\Utils;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -20,7 +20,6 @@ if ( ! class_exists( 'SliderPress_hooks' ) ) {
 		 * SliderPress_hooks constructor.
 		 */
 		function __construct() {
-
 			add_action( 'init', array( $this, 'register_everything' ) );
 		}
 
@@ -29,7 +28,7 @@ if ( ! class_exists( 'SliderPress_hooks' ) ) {
 		 * Register Post Types and Settings
 		 */
 		function register_everything() {
-			Pluginbazar_Utils::register_post_type( 'slider', array(
+			Utils::register_post_type( 'slider', array(
 				'singular'            => esc_html__( 'Slider', 'sliderpress' ),
 				'plural'              => esc_html__( 'Sliders', 'sliderpress' ),
 				'menu_icon'           => 'dashicons-slides',
@@ -42,8 +41,8 @@ if ( ! class_exists( 'SliderPress_hooks' ) ) {
 				'supports'            => array( 'title' ),
 			) );
 
-			Pluginbazar_shortcodes::add_shortcode( 'slider-1', false, SLIDERPRESS_PLUGIN_DIR . 'templates/slider-1.php' );
-			Pluginbazar_shortcodes::add_shortcode_args( 'slider-1', array(
+			Shortcodes::add_shortcode( 'slider-1', false, SLIDERPRESS_PLUGIN_DIR . 'templates/slider-1.php' );
+			Shortcodes::add_shortcode_args( 'slider-1', array(
 				'sliders' => array(
 					array(
 						'title'           => 'Mens Jackets',
@@ -90,8 +89,8 @@ if ( ! class_exists( 'SliderPress_hooks' ) ) {
 				),
 			) );
 
-			Pluginbazar_meta::register_meta_box( 'slider-data', 'slider' );
-			Pluginbazar_meta::add_section( 'slider-data', array(
+			Meta::register_meta_box( 'slider-data', 'slider' );
+			Meta::add_section( 'slider-data', array(
 				'id'     => 'main_meta',
 				'label'  => 'Main Meta',
 				'fields' => array(
@@ -107,25 +106,52 @@ if ( ! class_exists( 'SliderPress_hooks' ) ) {
 						'title'       => esc_html__( 'Enable These Rules', 'sliderpress' ),
 						'desc'        => esc_html__( 'Field description text here', 'sliderpress' ),
 						'placeholder' => esc_html__( 'Placeholder text here', 'sliderpress' ),
-						'type'        => 'text',
+						'type'        => 'radio',
+						'options'     => array(
+							'yes' => esc_html__( 'Yes' ),
+							'no'  => esc_html__( 'No' ),
+						),
 					),
 					array(
-						'id'          => 'sliderpress_enable_rules3',
+						'id'          => 'sliderpress_enable_rules2asd',
 						'title'       => esc_html__( 'Enable These Rules', 'sliderpress' ),
 						'desc'        => esc_html__( 'Field description text here', 'sliderpress' ),
 						'placeholder' => esc_html__( 'Placeholder text here', 'sliderpress' ),
-						'type'        => 'text',
+						'type'        => 'checkbox',
+						'options'     => array(
+							'yes' => esc_html__( 'Yes' ),
+							'no'  => esc_html__( 'No' ),
+						),
 					),
 					array(
-						'id'          => 'sliderpress_enable_rules4',
-						'title'       => esc_html__( 'Enable These Rules', 'sliderpress' ),
-						'desc'        => esc_html__( 'Field description text here', 'sliderpress' ),
-						'placeholder' => esc_html__( 'Placeholder text here', 'sliderpress' ),
-						'type'        => 'text',
+						'id'            => 'sliderprles2asd',
+						'title'         => esc_html__( 'Enable These Rules', 'sliderpress' ),
+						'desc'          => esc_html__( 'Field description text here', 'sliderpress' ),
+						'placeholder'   => esc_html__( 'Placeholder text here', 'sliderpress' ),
+						'type'          => 'select',
+						'options'       => array(
+							'yes' => esc_html__( 'Yes' ),
+							'no'  => esc_html__( 'No' ),
+						),
+						'empty_options' => esc_html__( 'Select option', 'sliderpress' ),
+					),
+					array(
+						'id'            => 'adadada3qwer',
+						'title'         => esc_html__( 'Enable These Rules', 'sliderpress' ),
+						'desc'          => esc_html__( 'Field description text here', 'sliderpress' ),
+						'placeholder'   => esc_html__( 'Placeholder text here', 'sliderpress' ),
+						'type'          => 'textarea',
+					),
+					array(
+						'id'            => 'wp_editor_test',
+						'title'         => esc_html__( 'Enable These Rules', 'sliderpress' ),
+						'desc'          => esc_html__( 'Field description text here', 'sliderpress' ),
+						'placeholder'   => esc_html__( 'Placeholder text here', 'sliderpress' ),
+						'type'          => 'wp_editor',
 					),
 				),
 			) );
-			Pluginbazar_meta::add_section( 'slider-data', array(
+			Meta::add_section( 'slider-data', array(
 				'id'     => 'main_meta2',
 				'label'  => 'Main Meta 2',
 				'fields' => array(

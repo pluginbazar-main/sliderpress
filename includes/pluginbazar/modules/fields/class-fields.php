@@ -33,15 +33,15 @@ class Fields {
 
 		ob_start();
 
-		foreach ( Pluginbazar_utils::get_args_option( 'fields', $section ) as $field ) {
-			if ( in_array( $type = Pluginbazar_utils::get_args_option( 'type', $field ), $allowed_fields ) ) {
+		foreach ( Utils::get_args_option( 'fields', $section ) as $field ) {
+			if ( in_array( $type = Utils::get_args_option( 'type', $field ), $allowed_fields ) ) {
 				call_user_func( array( sprintf( 'Pluginbazar\Fields\Field_%s', $type ), 'render' ), new Field( $field ) );
 			}
 		}
 
 		printf( '<div class="content-%s %s">%s</div>',
-			Pluginbazar_utils::get_args_option( 'id', $section ),
-			Pluginbazar_utils::get_args_option( 'index', $section ) == 0 ? 'active' : '',
+			Utils::get_args_option( 'id', $section ),
+			Utils::get_args_option( 'index', $section ) == 0 ? 'active' : '',
 			ob_get_clean()
 		);
 	}
@@ -74,7 +74,14 @@ class Fields {
 	 * @return string[]
 	 */
 	private static function get_fields(): array {
-		return array( 'text' );
+
+		$fields = scandir( __DIR__ . '/types' );
+
+		array_shift( $fields );
+		array_shift( $fields );
+
+
+		return $fields;
 	}
 
 

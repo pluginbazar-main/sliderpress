@@ -8,9 +8,9 @@
 namespace Pluginbazar;
 
 /**
- * Class Pluginbazar_settings
+ * Class Settings
  */
-class Pluginbazar_settings {
+class Settings {
 
 	/**
 	 * Pluginbazar_Utils instance
@@ -21,7 +21,7 @@ class Pluginbazar_settings {
 
 
 	/**
-	 * @return Pluginbazar_settings|null
+	 * @return Settings|null
 	 */
 	public static function instance() {
 		if ( is_null( self::$_instance ) ) {

@@ -8,12 +8,12 @@
 namespace Pluginbazar;
 
 /**
- * Class Pluginbazar_shortcodes
+ * Class Shortcodes
  */
-class Pluginbazar_shortcodes {
+class Shortcodes {
 
 	/**
-	 * Pluginbazar_shortcodes instance
+	 * Shortcodes instance
 	 *
 	 * @var null
 	 */
@@ -29,7 +29,7 @@ class Pluginbazar_shortcodes {
 
 
 	/**
-	 * Pluginbazar_shortcodes constructor.
+	 * Shortcodes constructor.
 	 */
 	public function __construct() {
 		add_action( 'init', array( __CLASS__, 'register_shortcodes' ), 99 );
@@ -65,13 +65,13 @@ class Pluginbazar_shortcodes {
 	 */
 	public static function get_shortcode_data( string $shortcode, string $return = 'all' ) {
 
-		$this_shortcode = Pluginbazar_utils::get_args_option( $shortcode, self::$_shortcodes );
+		$this_shortcode = Utils::get_args_option( $shortcode, self::$_shortcodes );
 
 		if ( empty( $return ) || $return == 'all' ) {
 			return $this_shortcode;
 		}
 
-		return Pluginbazar_utils::get_args_option( $return, $this_shortcode );
+		return Utils::get_args_option( $return, $this_shortcode );
 	}
 
 
@@ -114,7 +114,7 @@ class Pluginbazar_shortcodes {
 
 
 	/**
-	 * @return Pluginbazar_shortcodes|null
+	 * @return Shortcodes|null
 	 */
 	public static function instance() {
 		if ( is_null( self::$_instance ) ) {

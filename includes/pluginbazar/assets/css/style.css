@@ -78,7 +78,11 @@
 }
 
 .pluginbazar-field > .field > input[type=text],
-.pluginbazar-field > .field > input[type=text]:focus {
+.pluginbazar-field > .field > textarea,
+
+.pluginbazar-field > .field > input[type=text]:focus,
+.pluginbazar-field > .field > textarea:focus
+{
     min-width: 220px;
     outline: none;
     border: 1px solid #c3c4c7;
@@ -86,7 +90,8 @@
     padding: 6px 10px;
 }
 
-.pluginbazar-field > .field > input[type=text]:focus {
+.pluginbazar-field > .field > input[type=text]:focus,
+.pluginbazar-field > .field > textarea:focus {
     border-color: #8bc34a;
 }
 

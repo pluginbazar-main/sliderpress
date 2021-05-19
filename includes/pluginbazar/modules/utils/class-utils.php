@@ -6,12 +6,12 @@
 namespace Pluginbazar;
 
 /**
- * Class Pluginbazar_utils
+ * Class Utils
  */
-class Pluginbazar_utils {
+class Utils {
 
 	/**
-	 * Pluginbazar_utils instance
+	 * Utils instance
 	 *
 	 * @var null
 	 */
@@ -27,7 +27,7 @@ class Pluginbazar_utils {
 
 
 	/**
-	 * Pluginbazar_utils constructor.
+	 * Utils constructor.
 	 */
 	function __construct() {
 		add_action( 'rest_api_init', array( __CLASS__, 'register_endpoints' ) );
@@ -179,7 +179,7 @@ class Pluginbazar_utils {
 
 
 	/**
-	 * @return Pluginbazar_utils|null
+	 * @return Utils|null
 	 */
 	public static function instance() {
 		if ( is_null( self::$_instance ) ) {
