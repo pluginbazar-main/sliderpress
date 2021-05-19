@@ -1,0 +1,97 @@
+/**
+ * Pluginbazar CSS
+ *
+ * @author Pluginbazar
+ */
+
+.pluginbazar-metabox {
+
+}
+
+.pluginbazar-metabox ul.tabs {
+    margin: 0;
+}
+
+.pluginbazar-metabox ul.tabs > li {
+    background: #f6f7f7;
+    margin: 0;
+    vertical-align: bottom;
+    display: inline-block;
+    transition: 0.3s;
+}
+
+.pluginbazar-metabox ul.tabs > li.active {
+    background: #fff;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.pluginbazar-metabox ul.tabs > li > a,
+.pluginbazar-metabox ul.tabs > li > a:active,
+.pluginbazar-metabox ul.tabs > li > a:focus {
+    text-decoration: none;
+    font-size: 14px;
+    padding: 12px 18px;
+    color: #424242;
+    display: block;
+    box-shadow: none;
+    border: none;
+    outline: none;
+}
+
+.pluginbazar-metabox .tab-contents {
+    background: #fff;
+}
+
+.pluginbazar-metabox .tab-contents > div {
+    padding: 20px;
+    display: none;
+}
+
+.pluginbazar-metabox .tab-contents > div.active {
+    display: block;
+}
+
+/**
+ * FIELD DESIGN
+ */
+
+.pluginbazar-field {
+    margin-bottom: 20px;
+}
+
+.pluginbazar-field:last-child {
+    margin-bottom: 0;
+}
+
+.pluginbazar-field > label {
+    display: inline-block;
+    min-width: 180px;
+    vertical-align: top;
+    font-size: 14px;
+    font-weight: 500;
+    padding-top: 3px;
+}
+
+.pluginbazar-field > .field {
+    display: inline-block;
+}
+
+.pluginbazar-field > .field > input[type=text],
+.pluginbazar-field > .field > input[type=text]:focus {
+    min-width: 220px;
+    outline: none;
+    border: 1px solid #c3c4c7;
+    box-shadow: none;
+    padding: 6px 10px;
+}
+
+.pluginbazar-field > .field > input[type=text]:focus {
+    border-color: #8bc34a;
+}
+
+.pluginbazar-field > .field > p {
+    font-style: italic;
+    color: #656565;
+    margin: 8px 0 0;
+}
