@@ -30,7 +30,7 @@ class Field_select {
 		ob_start();
 
 		?>
-        <select name="<?php echo esc_attr( $field->id ); ?>" id="<?php echo esc_attr( $field->id ); ?>" <?php $field->is_disabled(); ?> <?php $field->is_required(); ?>>
+        <select name="<?php echo esc_attr( $field->id ); ?>" id="<?php echo esc_attr( $field->unique_id ); ?>" <?php $field->is_disabled(); ?> <?php $field->is_required(); ?>>
 			<?php foreach ( $field->get_options() as $key => $label ) : ?>
                 <option value="<?php echo esc_attr( $key ); ?>" <?php $field->is_current_option( $key ); ?>><?php echo esc_html( $label ); ?></option>
 			<?php endforeach; ?>

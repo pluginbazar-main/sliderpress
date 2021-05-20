@@ -31,12 +31,12 @@ class Field_checkbox {
 
 		foreach ( $field->get_options() as $key => $label ) {
 			?>
-            <label for="<?php echo esc_attr( $field->id . $key ); ?>">
+            <label for="<?php echo esc_attr( $field->unique_id . $key ); ?>">
                 <input type="checkbox"
 					<?php $field->is_disabled(); ?>
 					<?php $field->is_required(); ?>
 					<?php $field->is_current_option( $key ); ?>
-                       id="<?php echo esc_attr( $field->id . $key ); ?>"
+                       id="<?php echo esc_attr( $field->unique_id . $key ); ?>"
                        name="<?php echo esc_attr( $field->id ); ?>[]"
                        value="<?php echo esc_attr( $key ); ?>">
 				<?php echo esc_html( $label ); ?>

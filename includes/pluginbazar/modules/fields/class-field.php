@@ -12,18 +12,24 @@ use Pluginbazar\Utils;
 class Field {
 
 	public $id = null;
+	public $unique_id = null;
 	public $args = array();
 	public $title = null;
 	public $type = null;
 	public $placeholder = null;
 	public $desc = null;
 	public $value = null;
+	private $default = null;
 	private $is_disabled = false;
 	private $is_required = false;
 	private $options = array();
 	private $empty_options = false;
 	public $cols = 30;
 	public $rows = 5;
+	public $min = 1;
+	public $max = 100;
+	public $multiple = false;
+	public $fields = array();
 
 
 	/**
@@ -35,6 +41,22 @@ class Field {
 		foreach ( $args as $key => $val ) {
 			$this->$key = $val;
 		}
+
+		if ( ! empty( $this->default ) && empty( $this->value ) ) {
+			$this->value = $this->default;
+		}
+
+		$this->unique_id = str_replace( array( '-', '[', ']' ), '_', $this->id );
+	}
+
+
+	/**
+	 * Print field arguments
+	 *
+	 * @param array $defaults
+	 */
+	public function field_args( array $defaults = array() ) {
+		printf( '%s', preg_replace( '/"([^"]+)"\s*:\s*/', '$1:', json_encode( wp_parse_args( $defaults, $this->args ) ) ) );
 	}
 
 
@@ -65,21 +87,26 @@ class Field {
 	 * Return attribute if this field is required
 	 */
 	public function is_current_option( string $key ) {
+
+		$field_value = $this->value;
+
 		switch ( $this->type ) {
 			case 'checkbox':
-				printf( '%s', in_array( $key, $this->value ) ? 'checked' : '' );
+				$field_value = is_array( $field_value ) ? $field_value : array( $field_value );
+				printf( '%s', in_array( $key, $field_value ) ? 'checked' : '' );
 				break;
 
 			case 'radio':
-				printf( '%s', $this->value == $key ? 'checked' : '' );
+				printf( '%s', $field_value == $key ? 'checked' : '' );
 				break;
 
 			case 'select':
-				printf( '%s', $this->value == $key ? 'selected' : '' );
+				printf( '%s', $field_value == $key ? 'selected' : '' );
 				break;
 
 			case 'select2':
-				printf( '%s', in_array( $key, $this->value ) ? 'selected' : '' );
+				$field_value = is_array( $field_value ) ? $field_value : array( $field_value );
+				printf( '%s', in_array( $key, $field_value ) ? 'selected' : '' );
 				break;
 		}
 	}
@@ -100,6 +127,13 @@ class Field {
 		printf( '%s', $this->is_disabled ? 'disabled' : '' );
 	}
 
+	/**
+	 * Return multiple attributes
+	 */
+	public function is_multiple() {
+		printf( '%s', $this->multiple ? 'multiple="multiple"' : '' );
+	}
+
 
 	/**
 	 * Output the field HTML
@@ -107,7 +141,7 @@ class Field {
 	 * @param null $content
 	 */
 	public function output( $content = null ) {
-		printf( '<div class="pluginbazar-field %s">%s<div class="field">%s%s</div></div>', $this->type, $this->get_label(), $content, $this->get_desc() );
+		printf( '<div class="pluginbazar-field %1$s" data-type="%1$s">%2$s<div class="field">%3$s%4$s</div></div>', $this->type, $this->get_label(), $content, $this->get_desc() );
 	}
 
 
@@ -127,6 +161,6 @@ class Field {
 	 * @return string
 	 */
 	public function get_label(): string {
-		return sprintf( '<label for="%s">%s</label>', $this->id, $this->title );
+		return sprintf( '<label for="%s">%s</label>', $this->unique_id, $this->title );
 	}
 }

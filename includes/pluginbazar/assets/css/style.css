@@ -79,10 +79,8 @@
 
 .pluginbazar-field > .field > input[type=text],
 .pluginbazar-field > .field > textarea,
-
 .pluginbazar-field > .field > input[type=text]:focus,
-.pluginbazar-field > .field > textarea:focus
-{
+.pluginbazar-field > .field > textarea:focus {
     min-width: 220px;
     outline: none;
     border: 1px solid #c3c4c7;
@@ -100,3 +98,98 @@
     color: #656565;
     margin: 8px 0 0;
 }
+
+.pluginbazar-field.range input[type=range] {
+    -webkit-appearance: none;
+    width: 280px;
+    height: 7px;
+    background: #9a9a9a;
+    outline: none;
+}
+
+.pluginbazar-field.range input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: #138E77;
+    cursor: pointer;
+}
+
+.pluginbazar-field.range input[type=range]::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: #138E77;
+    cursor: pointer;
+}
+
+.pluginbazar-field.range input[type=range] span {
+    font-size: 17px;
+    margin-left: 8px;
+}
+
+/**
+ * Repeater Fields
+ */
+.pluginbazar-field.repeater .field p {
+    display: inline-block;
+    margin-left: 10px;
+}
+
+.pluginbazar-field.repeater .repeater-item {
+    background: #f6f7f7;
+    border-bottom: 1px solid #dedede;
+    display: flex;
+    align-items: center;
+}
+
+.pluginbazar-field.repeater .repeater-item .fields {
+    padding: 20px;
+    border-right: 1px solid #dedede;
+}
+
+
+.pluginbazar-field.repeater .repeater-item .controls {
+}
+
+.pluginbazar-field.repeater .repeater-item .controls .control {
+    cursor: pointer;
+    border-bottom: 1px solid #dedede;
+    padding: 10px;
+    transition: 0.3s;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+.pluginbazar-field.repeater .repeater-item .controls .control.drag {
+    cursor: move;
+}
+
+.pluginbazar-field.repeater .repeater-item .controls .control:hover {
+    background: #dedede;
+}
+
+.pluginbazar-field.repeater .repeater-item .controls .control:last-child {
+    border-bottom: none;
+}
+
+.pluginbazar-field.repeater .repeater-item .controls .control img {
+    max-width: 18px;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+
+.pluginbazar-field.repeater .repeater-item:last-child {
+    border-bottom: none;
+}
+
+.pluginbazar-field.repeater .pluginbazar-repeater-add {
+    margin-top: 15px !important;
+    display: inline-block;
+    position: relative;
+}
+
+

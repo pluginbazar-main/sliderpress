@@ -55,19 +55,57 @@ class Main {
 	}
 
 
+	/**
+	 * Register admin scripts
+	 */
 	function admin_scripts() {
+
+		wp_enqueue_script( 'jquery-ui-sortable' );
+
 		wp_enqueue_style( 'pluginbazar-styles', self::get_file_url( 'assets/css/style.css' ), array(), date( 'H:s' ) );
 		wp_enqueue_script( 'pluginbazar-scripts', self::get_file_url( 'assets/js/scripts.js' ), array( 'jquery' ), date( 'H:s' ) );
+		wp_localize_script( 'pluginbazar-scripts', 'pluginbazar', array(
+			'ajaxUrl'     => admin_url( 'admin-ajax.php' ),
+			'confirmText' => esc_html( 'Do you really want to continue?' ),
+		) );
+
+		// For datepicker field
+		wp_register_style( 'pluginbazar-datepicker', self::get_file_url( 'assets/css/datepicker.css' ) );
+		wp_register_script( 'pluginbazar-moment', self::get_file_url( 'assets/js/moment.min.js' ), array( 'jquery' ) );
+		wp_register_script( 'pluginbazar-datepicker', self::get_file_url( 'assets/js/datepicker.js' ), array( 'pluginbazar-moment' ) );
+
+		// For timepicker field
+		wp_register_style( 'pluginbazar-timepicker', self::get_file_url( 'assets/css/timepicker.min.css' ) );
+		wp_register_script( 'pluginbazar-timepicker', self::get_file_url( 'assets/js/timepicker.min.js' ) );
+
+		// For select2 field
+		wp_register_style( 'pluginbazar-select2', self::get_file_url( 'assets/css/select2.min.css' ) );
+		wp_register_script( 'pluginbazar-select2', self::get_file_url( 'assets/js/select2.min.js' ) );
 	}
 
 
 	/**
 	 * Return file URL of current directory
 	 *
+	 * @param string $path
+	 *
 	 * @return string
 	 */
 	public static function get_file_url( string $path = '' ): string {
 		return is_ssl() ? 'https://' : 'http://' . $_SERVER['HTTP_HOST'] . str_replace( $_SERVER['DOCUMENT_ROOT'], '', realpath( __DIR__ ) ) . ( empty( $path ) ? '' : '/' . $path );
+	}
+
+
+	/**
+	 * Return image URL
+	 *
+	 * @param string $name
+	 * @param string $extension
+	 *
+	 * @return string
+	 */
+	public static function get_image( string $name, string $extension = 'svg' ): string {
+		return self::get_file_url( 'assets/images/' . $name . '.' . $extension );
 	}
 
 

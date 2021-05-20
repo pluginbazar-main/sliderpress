@@ -113,41 +113,19 @@ if ( ! class_exists( 'SliderPress_hooks' ) ) {
 						),
 					),
 					array(
-						'id'          => 'sliderpress_enable_rules2asd',
+						'id'          => 'repeater_field',
 						'title'       => esc_html__( 'Enable These Rules', 'sliderpress' ),
-						'desc'        => esc_html__( 'Field description text here', 'sliderpress' ),
 						'placeholder' => esc_html__( 'Placeholder text here', 'sliderpress' ),
-						'type'        => 'checkbox',
-						'options'     => array(
-							'yes' => esc_html__( 'Yes' ),
-							'no'  => esc_html__( 'No' ),
+						'type'        => 'repeater',
+						'default'     => array( '' ),
+						'fields'      => array(
+							array(
+								'id'          => 'repeater_field_1',
+								'title'       => esc_html__( 'Enable These Rules', 'sliderpress' ),
+								'placeholder' => esc_html__( 'Placeholder text here', 'sliderpress' ),
+								'type'        => 'datepicker',
+							),
 						),
-					),
-					array(
-						'id'            => 'sliderprles2asd',
-						'title'         => esc_html__( 'Enable These Rules', 'sliderpress' ),
-						'desc'          => esc_html__( 'Field description text here', 'sliderpress' ),
-						'placeholder'   => esc_html__( 'Placeholder text here', 'sliderpress' ),
-						'type'          => 'select',
-						'options'       => array(
-							'yes' => esc_html__( 'Yes' ),
-							'no'  => esc_html__( 'No' ),
-						),
-						'empty_options' => esc_html__( 'Select option', 'sliderpress' ),
-					),
-					array(
-						'id'            => 'adadada3qwer',
-						'title'         => esc_html__( 'Enable These Rules', 'sliderpress' ),
-						'desc'          => esc_html__( 'Field description text here', 'sliderpress' ),
-						'placeholder'   => esc_html__( 'Placeholder text here', 'sliderpress' ),
-						'type'          => 'textarea',
-					),
-					array(
-						'id'            => 'wp_editor_test',
-						'title'         => esc_html__( 'Enable These Rules', 'sliderpress' ),
-						'desc'          => esc_html__( 'Field description text here', 'sliderpress' ),
-						'placeholder'   => esc_html__( 'Placeholder text here', 'sliderpress' ),
-						'type'          => 'wp_editor',
 					),
 				),
 			) );

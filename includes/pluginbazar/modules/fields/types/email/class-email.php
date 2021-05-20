@@ -33,7 +33,7 @@ class Field_email {
         <input type="email"
 	        <?php $field->is_disabled(); ?>
 	        <?php $field->is_required(); ?>
-               id="<?php echo esc_html( $field->id ); ?>"
+               id="<?php echo esc_html( $field->unique_id ); ?>"
                name="<?php echo esc_html( $field->id ); ?>"
                value="<?php echo esc_html( $field->value ); ?>"
                placeholder="<?php echo esc_html( $field->placeholder ); ?>">

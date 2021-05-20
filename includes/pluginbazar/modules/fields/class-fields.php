@@ -22,11 +22,19 @@ class Fields {
 	private static $_instance = null;
 
 
+	/**
+	 * Fields constructor.
+	 */
 	function __construct() {
 		self::load_fields();
 	}
 
 
+	/**
+	 * Render sections
+	 *
+	 * @param array $section
+	 */
 	public static function render_sections( array $section = array() ) {
 
 		$allowed_fields = self::get_fields();
@@ -73,7 +81,7 @@ class Fields {
 	 *
 	 * @return string[]
 	 */
-	private static function get_fields(): array {
+	public static function get_fields(): array {
 
 		$fields = scandir( __DIR__ . '/types' );
 
